@@ -1,20 +1,22 @@
 const { Sequelize } = require("sequelize");
 const CONFIG = require("../config/config");
 
+const sequelize = new Sequelize(
+    CONFIG.db_mysql.db_mysql_name,
+    CONFIG.db_mysql.db_mysql_user,
+    CONFIG.db_mysql.db_mysql_pass, {
+    dialect: 'mysql',
+    host: CONFIG.db_mysql.db_mysql_host,
+
+});
+
 async function connection() {
     try {
-        const sequelize = new Sequelize(
-            'pruebawalmeric',
-            'root',
-            '', {
-            host: 'localhost',
-            dialect: 'mysql'
-        });
-        // await mongoose.connect(CONFIG.mongoDB.mongoDB_URL)
-        console.log('Conectado a la base de datos');
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
     } catch (error) {
-        console.error(error);
+        console.error('Unable to connect to the database:', error);
     }
 }
 
-module.exports = connection
+module.exports = { connection, sequelize }

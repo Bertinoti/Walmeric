@@ -1,6 +1,6 @@
 const app = require("./server");
 
-const connection = require("./db/connection");
+const {connection} = require("./db/connection");
 
 connection();
 

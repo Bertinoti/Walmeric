@@ -15,6 +15,12 @@ const CONFIG = {
     },
     mongoDB: {
         mongoDB_URL: process.env.MONGODB_URL
+    },
+    db_mysql:{
+        db_mysql_name: process.env.DB_SQL,
+        db_mysql_user: process.env.DB_SQL_USER,
+        db_mysql_pass: process.env.DB_SQL_PASSWORD,
+        db_mysql_host: process.env.DB_SQL_HOST,
     }
 }
 

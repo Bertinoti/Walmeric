@@ -1,4 +1,4 @@
-const { User, Team } = require("../models");
+onst { User, Team } = require("../models");
 
 async function createTeam(req, res, next) {
   const { teamName, logo, city, country } = req.body;

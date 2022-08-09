@@ -1,8 +1,12 @@
-const mongoose = require("mongoose");
 const { User } = require("../models");
 
+
+
 async function signup(req, res, next) {
-  const { uid, email } = req.user;
+  const data =  await User.create(req.body)
+  console.log(data)
+  return res.send(data)
+  // const { uid, email } = req.user;
   const { username, phone } = req.body;
   try {
     const user = await User.findOne({ email: email });
