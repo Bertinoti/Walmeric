@@ -18,18 +18,23 @@ export function AuthProvider({ children }) {
     const [results, setResults] = useState([]);
     const [day, setDay] = useState(new Date());
 
-    const signup = async ({ email, password, userName, phoneNumber }) => {
+    const signup = async ({ email, password, firstName, lastName, birthday, phoneNumber }) => {
+        console.log(email, password, firstName, lastName, birthday, phoneNumber)
         const res = await createUserWithEmailAndPassword(auth, email, password)
         const user = {
-            username: userName,
+            firstName: firstName,
+            lastName: lastName,
+            birthday: birthday,
             email: email,
             uid: res.user.uid,
             phone: phoneNumber,
         }
+        console.log(user);
         createUserApi(res._tokenResponse.idToken, user)
         // return res;
 
     }
+    //P@ssw0rd
     const login = (email, password) => signInWithEmailAndPassword(auth, email, password)
 
     const logout = () => {

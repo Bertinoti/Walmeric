@@ -3,11 +3,10 @@ const { sequelize } = require('../db/connection');
 
 const User = sequelize.define('User', {
     uid: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         autoIncrement: true,
         primaryKey: true,
         unique: true,
-
     },
     firstName: {
         type: DataTypes.STRING,
@@ -25,10 +24,6 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
 }, {});
 sequelize.sync()
     .then(()=> console.log('Database create successfully'))

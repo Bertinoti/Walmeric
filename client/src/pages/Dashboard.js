@@ -41,15 +41,15 @@ export default function Dashboard() {
         }
     });
 
-    useEffect(async () => {
-        const res = await checkTeam(currentUser.accessToken)
-        setResults(res)
-    }, [])
+    // useEffect(async () => {
+    //     const res = await checkTeam(currentUser.accessToken)
+    //     setResults(res)
+    // }, [])
 
-    useEffect(async () => {
-        const res = await checkTeam(currentUser.accessToken)
-        setResults(res)
-    }, [show])
+    // useEffect(async () => {
+    //     const res = await checkTeam(currentUser.accessToken)
+    //     setResults(res)
+    // }, [show])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

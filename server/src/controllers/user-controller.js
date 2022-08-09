@@ -1,25 +1,24 @@
-const { User } = require("../models");
-
-
+const  {User}  = require("../models");
 
 async function signup(req, res, next) {
-  const data =  await User.create(req.body)
-  console.log(data)
-  return res.send(data)
-  // const { uid, email } = req.user;
-  const { username, phone } = req.body;
+
+  console.log(req.body)
+  console.log(req.user)
+  const { uid, email } = req.user;
+  const { firstName, lastName, birthday, phoneNumber } = req.body;
   try {
     const user = await User.findOne({ email: email });
 
     if (user) {
       return res.sendStatus(200);
     }
-
     const newUser = await User.create({
-      uid: uid,
-      username: req.user.username || username,
+      firstName: firstName,
+      lastName: lastName,
+      birthday: birthday,
       email: email,
-      phone: phone,
+      uid: uid,
+      phone: phoneNumber
     });
 
     res.status(201).send({ data: newUser });

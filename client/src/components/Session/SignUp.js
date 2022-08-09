@@ -8,7 +8,6 @@ import { useAuth } from '../../contexts/authContext';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'
 import "../style/signUp.scss"
-import parse from "date-fns/parse";
 
 const validationSchema = yup.object({
 
@@ -22,15 +21,6 @@ const validationSchema = yup.object({
         .required('this field is required'),
     birthday: yup
         .date()
-        .transform(function (value, originalValue) {
-            if (this.isType(value)) {
-                return value;
-            }
-            const result = parse(originalValue, "dd.MM.yyyy", new Date());
-            return result;
-        })
-        .typeError("please enter a valid date")
-        .min("1969-11-13", "Date is too early")
         .required('this field is required'),
 
     email: yup
@@ -78,7 +68,7 @@ export default function SignUp() {
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            try {
+                try {
                 setLoading(true)
                 await signup(values)
                 navigate('/dashboard');
@@ -98,15 +88,15 @@ export default function SignUp() {
                         <h2 className='text-center mb-4 '>Sign Up</h2>
 
                         {/* {currentUser && currentUser.email} */}
-
                         {error && <Alert variant='danger'> {error} </Alert>}
+{/* 
                         {formik.errors.firstName && <Alert variant='danger'> {formik.errors.firstName} </Alert>}
                         {formik.errors.lastName && <Alert variant='danger'> {formik.errors.lastName} </Alert>}
                         {formik.errors.birthday && <Alert variant='danger'> {formik.errors.birthday} </Alert>}
                         {formik.errors.phoneNumber && <Alert variant='danger'> {formik.errors.phoneNumber} </Alert>}
                         {formik.errors.email && <Alert variant='danger'> {formik.errors.email} </Alert>}
                         {formik.errors.password && <Alert variant='danger'> {formik.errors.password} </Alert>}
-                        {formik.errors.confpassword && <Alert variant='danger'> {formik.errors.confpassword} </Alert>}
+                        {formik.errors.confpassword && <Alert variant='danger'> {formik.errors.confpassword} </Alert>} */}
 
                         <Form onSubmit={formik.handleSubmit}>
 
@@ -141,7 +131,7 @@ export default function SignUp() {
                                 <Form.Control
                                     type='birthday'
                                     name='birthday'
-                                    placeholder='dd.mm.yyyy'
+                                    placeholder='YYYY-MM-DD'
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.birthday}
