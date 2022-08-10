@@ -1,6 +1,7 @@
 const { authFirebase } = require("../firebase/firebase");
 
 async function verifyPermissionApi(req, res, next) {
+
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer ")
@@ -8,7 +9,6 @@ async function verifyPermissionApi(req, res, next) {
     // the authorization token is coming in as:
     // Bearer eyJhb.....
     const bearerToken = req.headers.authorization.substr(7);
-
     try {
       const userClaims = await authFirebase.verifyIdToken(bearerToken);
 

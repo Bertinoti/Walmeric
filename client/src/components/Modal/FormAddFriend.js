@@ -8,7 +8,6 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { useAuth } from '../../contexts/authContext';
 
 import '../style/modal.scss'
-import { createTeam } from '../../api/axios';
 import { getRefUrl } from '../Helpers';
 
 
@@ -32,7 +31,7 @@ const validationSchema = yup.object({
 
 });
 
-export default function ModalNewTeam() {
+export default function FormAddFriend() {
   const { show, setShow, currentUser } = useAuth();
 
   const handleClose = async () => {
@@ -52,7 +51,6 @@ export default function ModalNewTeam() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const team = await getRefUrl(values)
-      createTeam(currentUser.accessToken, team)
     }
 
   });

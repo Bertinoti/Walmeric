@@ -4,7 +4,6 @@ const { sequelize } = require('../db/connection');
 const User = sequelize.define('User', {
     uid: {
         type: DataTypes.STRING,
-        autoIncrement: true,
         primaryKey: true,
         unique: true,
     },
@@ -20,8 +19,13 @@ const User = sequelize.define('User', {
         type: DataTypes.DATEONLY,
         allowNull: false
     },
+    phone:{
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false,
     },
 }, {});

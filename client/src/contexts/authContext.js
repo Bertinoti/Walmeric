@@ -4,7 +4,6 @@ import { createUserApi } from '../api/axios';
 import { auth } from '../firebase';
 
 const AuthContext = React.createContext();
-const Authh = getAuth()
 export function useAuth() {
     return useContext(AuthContext)
 }
@@ -19,19 +18,23 @@ export function AuthProvider({ children }) {
     const [day, setDay] = useState(new Date());
 
     const signup = async ({ email, password, firstName, lastName, birthday, phoneNumber }) => {
-        console.log(email, password, firstName, lastName, birthday, phoneNumber)
-        const res = await createUserWithEmailAndPassword(auth, email, password)
-        const user = {
-            firstName: firstName,
-            lastName: lastName,
-            birthday: birthday,
-            email: email,
-            uid: res.user.uid,
-            phone: phoneNumber,
+        try {
+            const res = await createUserWithEmailAndPassword(auth, email, password)
+            const user = {
+                firstName: firstName,
+                lastName: lastName,
+                birthday: birthday,
+                email: email,
+                uid: res.user.uid,
+                phone: parseInt(phoneNumber),
+            }
+            console.log(user);
+            createUserApi(res._tokenResponse.idToken, user)
+            
+        } catch (error) {
+            console.log(error);
+            
         }
-        console.log(user);
-        createUserApi(res._tokenResponse.idToken, user)
-        // return res;
 
     }
     //P@ssw0rd

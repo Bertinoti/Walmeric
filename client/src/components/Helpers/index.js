@@ -1,8 +1,5 @@
 import { storage } from '../../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import TeamCard from '../Cards/TeamCard';
-import { findAllTeamsUser } from '../../api/axios';
-import { useAuth } from '../../contexts/authContext';
 
 
 //TODO this function is to upload a img and return a url
@@ -19,25 +16,29 @@ export async function getRefUrl(values) {
     return team;
 }
 
-export async function checkTeam (token) {
-    const userTeams = await findAllTeamsUser(token);
-    return userTeams.allTeams
-    // setResults(userTeams.allTeams)
-}
+// const handleSearch = (e) => {
+//     setSearchBar(e.target.value)
+//     const string = e.target.value.toLowerCase()
+//     if (string === "") {
+//         setGifnew(allGifs);
+//     }
+//     if (string !== "") {
+//         const gifName = allGifs.filter((gif) =>
+//             gif.gifname.toLowerCase().includes(string)
+//         );
+//         const gifDescription = gifnew.filter((gif) =>
+//             gif.description.toLowerCase().includes(string)
+//         );
+//         if (gifName.length > 0) {
+//             setGifnew(gifName);
+//         } else {
+//             setGifnew(gifnew);
+//         }
+//         if (gifDescription.length > 0) {
+//             setGifnew(gifDescription);
+//         } else {
+//             setGifnew(gifnew);
+//         }
+//     }
 
-export async function teamDetail(user) {
-    const userTeams = await findAllTeamsUser(user);
-    let cont = 0
-    userTeams.allTeams.map((team) => {
-        team.players.map((player) => {
-            if (player === userTeams.playerId._id) {
-                cont++
-            }
-        })
-        if (cont > 1) {
-            return (true)
-        } else {
-            return (false)
-        }
-    })
-}
+// }

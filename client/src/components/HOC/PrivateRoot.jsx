@@ -6,7 +6,6 @@ import Dashboard from '../../pages/Dashboard';
 const PrivateRoot = ({ children }) => {
 
     const { currentUser } = useAuth();
-    console.log(">>>>>>>>>>>>>>>>>>>>>>", currentUser)
     const user = currentUser;
     if (true) {
         return user === "" ? <Navigate to="/" /> : children

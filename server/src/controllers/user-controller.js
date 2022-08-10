@@ -1,11 +1,7 @@
-const  {User}  = require("../models");
+const { User } = require("../models");
 
 async function signup(req, res, next) {
-
-  console.log(req.body)
-  console.log(req.user)
-  const { uid, email } = req.user;
-  const { firstName, lastName, birthday, phoneNumber } = req.body;
+  const { firstName, lastName, birthday, phone, uid, email } = req.body;
   try {
     const user = await User.findOne({ email: email });
 
@@ -18,7 +14,7 @@ async function signup(req, res, next) {
       birthday: birthday,
       email: email,
       uid: uid,
-      phone: phoneNumber
+      phone: phone
     });
 
     res.status(201).send({ data: newUser });
@@ -27,29 +23,22 @@ async function signup(req, res, next) {
   }
 }
 
-async function checkPayment(req, res, next) {
-  const { id, payment } = req.body;
-
+async function getCurrentUser(req, res, next) {
+  console.log(req.body)
   try {
-    const foundUser = await User.findOne({ id: id });
-
-    if (!foundUser) {
-      res.status(404).send("No exist user");
+    const { email } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.sendStatus(400).send("This user do Not exist");
     }
-
-    const updateUser = await User.findOneAndUpdate(
-      { _id: id },
-      { isPayment: payment },
-      { new: true }
-    );
-
-    res.status(200).send(updateUser);
+    res.status(200).send({ data: user });
   } catch (error) {
+    console.log(error)
     next(error);
   }
 }
 
 module.exports = {
-  signup: signup,
-  checkPayment: checkPayment,
+  signup,
+  getCurrentUser
 };

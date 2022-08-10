@@ -58,13 +58,13 @@ export default function SignUp() {
 
     const formik = useFormik({
         initialValues: {
-            firstName: '',
-            lastName: '',
-            birthday: '',
-            phoneNumber: '',
-            email: '',
-            password: '',
-            confpassword: '',
+            firstName: 'Jeff',
+            lastName: 'berti',
+            birthday: '1985-05-28',
+            phoneNumber: '34666777888',
+            email: 'jeff@mail.com',
+            password: 'P@ssw0rd',
+            confpassword: 'P@ssw0rd',
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
@@ -89,14 +89,14 @@ export default function SignUp() {
 
                         {/* {currentUser && currentUser.email} */}
                         {error && <Alert variant='danger'> {error} </Alert>}
-{/* 
                         {formik.errors.firstName && <Alert variant='danger'> {formik.errors.firstName} </Alert>}
+ 
                         {formik.errors.lastName && <Alert variant='danger'> {formik.errors.lastName} </Alert>}
                         {formik.errors.birthday && <Alert variant='danger'> {formik.errors.birthday} </Alert>}
                         {formik.errors.phoneNumber && <Alert variant='danger'> {formik.errors.phoneNumber} </Alert>}
                         {formik.errors.email && <Alert variant='danger'> {formik.errors.email} </Alert>}
                         {formik.errors.password && <Alert variant='danger'> {formik.errors.password} </Alert>}
-                        {formik.errors.confpassword && <Alert variant='danger'> {formik.errors.confpassword} </Alert>} */}
+                        {formik.errors.confpassword && <Alert variant='danger'> {formik.errors.confpassword} </Alert>}
 
                         <Form onSubmit={formik.handleSubmit}>
 
