@@ -16,8 +16,11 @@ export default function Dashboard() {
     const { show, setShow } = useAuth();
     const navigate = useNavigate()
 
+    console.log(currentUser)
     useEffect(async () => {
+        console.log(currentUser.accessToken, currentUser.email);
         const res = await getCurrentUser(currentUser.accessToken, currentUser.email)
+        console.log(res.data);
         setResults(res)
     }, [])
 

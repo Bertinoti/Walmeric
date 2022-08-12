@@ -33,7 +33,7 @@ export const getCurrentUser = async (token, email) => {
     data: data,
   };
   return await axios(config)
-    .then((response) => response.data.data)
+    .then((response) => response.data)
     .catch((error) => error.response);
 };
 

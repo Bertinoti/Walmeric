@@ -1,13 +1,23 @@
+const { Op } = require("sequelize");
 const { User } = require("../models");
+const { sendError } = require("../response");
 
 async function signup(req, res, next) {
   const { firstName, lastName, birthday, phone, uid, email } = req.body;
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findAll({
+      where: {
+        [Op.or]: [
+          { email: email },
+          { phone: phone }
+        ]
+      }
+    });
 
-    if (user) {
-      return res.sendStatus(200);
+    if (user.length > 0) {
+      return res.status(209).json(sendError('This Email or Phone already exist'));
     }
+
     const newUser = await User.create({
       firstName: firstName,
       lastName: lastName,
@@ -19,22 +29,31 @@ async function signup(req, res, next) {
 
     res.status(201).send({ data: newUser });
   } catch (error) {
-    next(error);
+    return (error);
   }
 }
 
 async function getCurrentUser(req, res, next) {
-  console.log(req.body)
+  console.log('req', req.body);
   try {
     const { email } = req.body;
-    const user = await User.findOne({ email: email });
-    if (!user) {
-      return res.sendStatus(400).send("This user do Not exist");
+    const user = await User.findAll({
+      where: {
+        email: {
+          [Op.eq]: email
+        }
+      }
+    });
+    console.log('user', user);
+    console.log(user.length < 1 );
+    if (user.length < 1) {
+      return res.status(209).json(sendError("This user do Not exist"));
+    } else {
+      res.status(200).send({ data: user });
+      next(res);
     }
-    res.status(200).send({ data: user });
   } catch (error) {
-    console.log(error)
-    next(error);
+    console.log(error);
   }
 }
 

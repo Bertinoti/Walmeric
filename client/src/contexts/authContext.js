@@ -26,14 +26,17 @@ export function AuthProvider({ children }) {
                 birthday: birthday,
                 email: email,
                 uid: res.user.uid,
-                phone: parseInt(phoneNumber),
+                phone: phoneNumber,
             }
-            console.log(user);
-            createUserApi(res._tokenResponse.idToken, user)
-            
+            try {
+                const x = createUserApi(res._tokenResponse.idToken, user)
+                console.log(x);
+                return x
+            } catch (error) {
+                console.log(error);
+            }
         } catch (error) {
-            console.log(error);
-            
+            throw Error(error);
         }
 
     }
