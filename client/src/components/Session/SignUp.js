@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/authContext';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'
 import "../style/signUp.scss"
+import { checkUserApi } from '../../api/axios';
 
 const validationSchema = yup.object({
 
@@ -70,10 +71,21 @@ export default function SignUp() {
         onSubmit: async (values) => {
             try {
                 setLoading(true)
-                await signup(values)
-                navigate('/dashboard');
+                const checkUser = await checkUserApi(values)
+                console.log(checkUser)
+                if (checkUser){
+                    setError('Email or Phone number already exists')
+                }else{
+                    await signup(values)
+                    navigate('/dashboard');
+                }
             } catch (error) {
-                setError(error.message || 'Failed to create a account')
+                if (error.message) {
+                    const msg = error.message.split((':'), )
+                    setError(msg[2])
+                } else {
+                    setError(error.message || 'Failed to create a account')
+                }
             }
             setLoading(false)
         },

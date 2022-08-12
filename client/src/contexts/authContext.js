@@ -30,13 +30,17 @@ export function AuthProvider({ children }) {
             }
             try {
                 const x = createUserApi(res._tokenResponse.idToken, user)
-                console.log(x);
-                return x
+                if(!x){
+                    throw Error ('email or phone already exists')
+                }else{
+                    console.log(x);
+                    return x
+                }
             } catch (error) {
-                console.log(error);
+                console.log(error.message);
             }
         } catch (error) {
-            throw Error(error);
+            console.log(error);
         }
 
     }
