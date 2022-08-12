@@ -1,33 +1,24 @@
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { FormControl } from '@mui/material';
 import { TextField } from '@mui/material'
 import { Button } from '@mui/material';
-import { Input } from '@mui/material';
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { useAuth } from '../../contexts/authContext';
-
-import '../style/modal.scss'
 import { getRefUrl } from '../Helpers';
+import MuiPhoneNumber from "material-ui-phone-number";
 
 
 const validationSchema = yup.object({
 
-  teamName: yup
-    .string('Enter your email')
-    .required("This field is required"),
+  userPhoneNumber: yup
+    .number('Enter the phone number')
+    .min(11, 'add the prefix (34) and the phone number (623456789)'),
 
-  country: yup
-    .string('Need to insert the Country')
-    .required('this field is required')
+  userUid: yup
+    .string('Enter user the count number ')
     .min(3, 'the length is to short'),
 
-  region: yup
-    .string('Enter valid password')
-    .required("This field is required"),
-
-  logo: yup
-    .string(),
+  email: yup
+    .string('Enter user email')
 
 });
 
@@ -42,15 +33,14 @@ export default function FormAddFriend() {
 
   const formik = useFormik({
     initialValues: {
-      teamName: '',
-      country: '',
-      region: '',
-      logo: '',
+      userPhoneNumber: '',
+      userUid: '',
+      email: '',
 
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const team = await getRefUrl(values)
+      console.log(values)
     }
 
   });
@@ -59,65 +49,55 @@ export default function FormAddFriend() {
   return (
     <>
       <form onSubmit={formik.handleSubmit}>
-        <div>
+        <div className=' mx-2 d-flex justify-content-center'> To Add a new Friend you can choose One of this three Options</div>
+          <div className='mx-2'>
+            <MuiPhoneNumber
+              fullWidth
+              id="userPhoneNumber"
+              name='userPhoneNumber'
+              variant="outlined"
+              margin="normal"
+              label="User Mobile Number"
+              defaultCountry={"es"}
+              regions={'europe'}
+              value={formik.values.userPhoneNumber}
+              onChange={value => formik.values.userPhoneNumber = value}
+              error={formik.touched.userPhoneNumber && Boolean(formik.errors.userPhoneNumber)}
+              helperText={formik.touched.userPhoneNumber && formik.errors.userPhoneNumber}
+            />
+          </div>
+        <div className='mx-2 my-3'>
+
           <TextField
             fullWidth
-            id='teamName'
-            name="teamName"
-            label='Team Name'
-            placeholder='Barcelona Addiction'
-            value={formik.values.teamName}
+            sx={{
+              maxHeigth: '.5em'
+            }}
+            id='userUid'
+            name="userUid"
+            label='Account Number'
+            placeholder='cBWY7FGxUrTaAefV4TXS2hGJ5Vx1'
+            value={formik.values.userUid}
             onChange={formik.handleChange}
-            error={formik.touched.teamName ? Boolean(formik.errors.teamName) : undefined}
+            error={formik.touched.userUid ? Boolean(formik.errors.userUid) : undefined}
           />
         </div>
-        <FormControl>
-          <div className='regionClass row'>
-            <div className='col-8'>
-              <CountryDropdown
-                id="country"
-                classes='dropdown'
-                name="country"
-                value={formik.values.country}
-                onChange={(_, e) => formik.handleChange(e)}
-                error={formik.touched.country && Boolean(formik.errors.country)}
-
-              />
-            </div>
-            <div className='col-4'>
-              <RegionDropdown
-                country={formik.values.country}
-                classes='dropdown'
-                id="region"
-                name="region"
-                label="Select region"
-                value={formik.values.region}
-                onChange={(_, e) => formik.handleChange(e)}
-                error={formik.touched.region ? Boolean(formik.errors.region) : undefined}
-              />
-            </div>
-          </div>
-        </FormControl>
-
-        <div className=' mt-3 d-flex justify-content-center' >
-          <label htmlFor="contained-button-file">
-            <Input
-              accept="image/*"
-              id="logo"
-              name='logo'
-              type="file"
-              onChange={(e) => {
-                formik.handleChange(e)
-                formik.setFieldValue('logo', e.target.files[0])
-              }}
-              error={formik.touched.logo ? Boolean(formik.errors.logo) : undefined}
-            />
-          </label>
+        <div className='mx-2 my-4'>
+          <TextField
+            fullWidth
+            id='email'
+            name="email"
+            label='User Email'
+            placeholder='user@mail.com'
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email ? Boolean(formik.errors.email) : undefined}
+          />
         </div>
 
-        <div className=' mt-3 d-flex justify-content-center' >
+        <div className=' mx-2 d-flex justify-content-center' >
           <Button color="primary" variant="contained" fullWidth type="submit" onClick={handleClose} >
-            Create Team
+            Add new Friend
           </Button>
         </div>
       </form>

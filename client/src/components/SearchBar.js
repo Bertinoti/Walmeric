@@ -21,10 +21,7 @@ export const SearchBar = () => {
 
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values)
-      const team = { teamName: values.inputSearch }
-      // const { data } = await searchTeam(currentUser.accessToken, team)
-      // setResults(data)
+      console.log(values.inputSearch)
     }
   });
 

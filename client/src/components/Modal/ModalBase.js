@@ -3,30 +3,34 @@ import { Modal } from 'react-bootstrap'
 import { useAuth } from '../../contexts/authContext';
 import FormAddFriend from './FormAddFriend';
 
-export default function () {
-    const { currentUser, logout, results, setResults } = useAuth()
+export default function ({ formName, formdata }) {
     const { show, setShow } = useAuth();
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const formReturn = (form) => {
+
+        switch (form.formdata) {
+            case 'addFriend':
+                return <FormAddFriend />
+
+            default:
+                break;
+        }
+
+    }
+
 
     return (
         <>
             <div className='w-100' style={{ maxWidth: '600px' }}>
                 <Modal show={show} onHide={handleClose} animation={false}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Create Team </Modal.Title>
+                        <Modal.Title> {formName} </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                       <FormAddFriend/>
+                        {formReturn({ formdata })}
                     </Modal.Body>
-                    <Modal.Footer>
-                        {/* <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button> */}
-                        {/* <Button variant="primary" type='submit' onClick={handleClose}>
-                            Save Changes
-                        </Button> */}
-                    </Modal.Footer>
                 </Modal>
             </div>
         </>

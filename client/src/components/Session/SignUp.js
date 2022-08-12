@@ -58,22 +58,22 @@ export default function SignUp() {
 
     const formik = useFormik({
         initialValues: {
-            firstName: 'Jeff',
-            lastName: 'berti',
+            firstName: '',
+            lastName: '',
             birthday: '1985-05-28',
-            phoneNumber: '34666777888',
-            email: 'jeff@mail.com',
+            phoneNumber: '34623333444',
+            email: '@mail.com',
             password: 'P@ssw0rd',
             confpassword: 'P@ssw0rd',
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-                try {
+            try {
                 setLoading(true)
                 await signup(values)
                 navigate('/dashboard');
             } catch (error) {
-                setError('Failed to create a account')
+                setError(error.message || 'Failed to create a account')
             }
             setLoading(false)
         },
@@ -90,7 +90,7 @@ export default function SignUp() {
                         {/* {currentUser && currentUser.email} */}
                         {error && <Alert variant='danger'> {error} </Alert>}
                         {formik.errors.firstName && <Alert variant='danger'> {formik.errors.firstName} </Alert>}
- 
+
                         {formik.errors.lastName && <Alert variant='danger'> {formik.errors.lastName} </Alert>}
                         {formik.errors.birthday && <Alert variant='danger'> {formik.errors.birthday} </Alert>}
                         {formik.errors.phoneNumber && <Alert variant='danger'> {formik.errors.phoneNumber} </Alert>}
