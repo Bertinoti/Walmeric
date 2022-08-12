@@ -10,15 +10,20 @@ const headersAPI = (token) => {
 
 export const createUserApi = (token, user) => {
   axios
-  .post("http://localhost:4000/api/users/signup", user, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  .then((res) => res.status === 201)
-  .catch((error) => error.response);
+    .post("http://localhost:4000/api/users/signup", user, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => res.status === 201)
+    .catch((error) => error.response);
 };
 
+export const checkUserApi = async (user) => {
+  console.log('entro' )
+  const {data, status} = await axios.post("http://localhost:4000/api/users/checkuserapi", user)
+  return data
+};
 
 export const getCurrentUser = async (token, email) => {
   var data = JSON.stringify({
@@ -33,8 +38,20 @@ export const getCurrentUser = async (token, email) => {
     data: data,
   };
   return await axios(config)
-    .then((response) => response.data)
-    .catch((error) => error.response);
+  .then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        return response.data.data
+      }
+      if(response.status === 209){
+        console.log(response);
+        throw Error (response.data.msg);
+      }
+    })
+    .catch((error) => {
+      console.log(error.message);
+      return error.message
+    })
 };
 
 export const searchTeam = async (token, team) => {
