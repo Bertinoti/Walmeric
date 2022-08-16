@@ -3,12 +3,8 @@ const { User } = require("../models");
 const { sendError } = require("../response");
 
 async function signup(req, res, next) {
-  const { firstName, lastName, birthday, phone, uid, email } = req.body;
   try {
-    const user = await checkUserApi();
-    if (user.length > 0) {
-      return res.status(209).json(sendError('This Email or Phone already exist'));
-    }
+    const { firstName, lastName, birthday, phone, uid, email } = req.body;
     const newUser = await User.create({
       firstName: firstName,
       lastName: lastName,
@@ -26,7 +22,7 @@ async function signup(req, res, next) {
 
 async function getCurrentUser(req, res, next) {
   try {
-    const { email } = req.user;
+    const { email } = req.body;
     const user = await User.findOne({
       where: { email: email }
     });
@@ -37,7 +33,7 @@ async function getCurrentUser(req, res, next) {
       next(res);
     }
   } catch (error) {
-    console.log(error);
+    console.log("este es um error", error);
   }
 }
 
@@ -52,15 +48,15 @@ async function checkUserApi(req, res) {
         ]
       }
     });
-    if(!user) throw new error('jakshd')
-    res.send( user );
+    res.send(user);
   }
   catch (error) {
     return error
-  }}
+  }
+}
 
-  module.exports = {
-    signup,
-    getCurrentUser,
-    checkUserApi
-  };
+module.exports = {
+  signup,
+  getCurrentUser,
+  checkUserApi
+};

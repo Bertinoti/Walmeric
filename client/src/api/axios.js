@@ -20,16 +20,16 @@ export const createUserApi = (token, user) => {
 };
 
 export const checkUserApi = async (user) => {
-  const {data} = await axios.post("http://localhost:4000/api/users/checkuserapi", user)
+  const {data} = await axios.post("http://localhost:4000/api/checkuserapi", user)
   return data
 };
 
 export const getCurrentUser = async (token, email) => {
-  var data = JSON.stringify({
+  var data = {
     email: email,
-  });
+  };
   var config = {
-    method: "get",
+    method: "post",
     url: "http://localhost:4000/api/users/getcurrentuser",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -42,12 +42,10 @@ export const getCurrentUser = async (token, email) => {
         return response.data.data
       }
       if(response.status === 209){
-        console.log(response);
         throw Error (response.data.msg);
       }
     })
     .catch((error) => {
-      console.log(error.message);
       return error.message
     })
 };

@@ -10,18 +10,22 @@ import 'react-phone-input-2/lib/style.css'
 import "../style/signUp.scss"
 import { checkUserApi } from '../../api/axios';
 
+
 const validationSchema = yup.object({
 
     firstName: yup
         .string('Enter your first Name')
         .min(3, 'need to be more then 3 letters')
         .required('this field is required'),
+
     lastName: yup
         .string('Enter your last Name')
         .min(3, 'need to be more then 3 letters')
         .required('this field is required'),
+
     birthday: yup
         .date()
+        .max(new Date(Date.now() - 567648000000), "You must be at least 18 years")
         .required('this field is required'),
 
     email: yup
@@ -61,26 +65,26 @@ export default function SignUp() {
         initialValues: {
             firstName: '',
             lastName: '',
-            birthday: '1985-05-28',
-            phoneNumber: '34623333444',
+            birthday: '',
+            phoneNumber: '',
             email: '@mail.com',
-            password: 'P@ssw0rd',
-            confpassword: 'P@ssw0rd',
+            password: '',
+            confpassword: '',
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
                 setLoading(true)
                 const checkUser = await checkUserApi(values)
-                if (checkUser){
+                if (checkUser.length > 0) {
                     setError('Email or Phone number already exists')
-                }else{
+                } else {
                     await signup(values)
                     navigate('/dashboard');
                 }
             } catch (error) {
                 if (error.message) {
-                    const msg = error.message.split((':'), )
+                    const msg = error.message.split((':'),)
                     setError(msg[2])
                 } else {
                     setError(error.message || 'Failed to create a account')

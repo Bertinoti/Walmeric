@@ -7,11 +7,7 @@ const PrivateRoot = ({ children }) => {
 
     const { currentUser } = useAuth();
     const user = currentUser;
-    if (true) {
-        return user === "" ? <Navigate to="/" /> : children
-    }else{
-        return null
-    }
+    return (user === null) ? <Navigate to="/" /> : children
 }
 
 export default PrivateRoot;

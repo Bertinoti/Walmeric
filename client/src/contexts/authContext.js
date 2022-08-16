@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
     const [cap, setCap] = useState(false)
     const [results, setResults] = useState([]);
     const [day, setDay] = useState(new Date());
+    const [error, setError] = useState('');
 
     const signup = async ({ email, password, firstName, lastName, birthday, phoneNumber }) => {
         try {
@@ -28,18 +29,9 @@ export function AuthProvider({ children }) {
                 uid: res.user.uid,
                 phone: phoneNumber,
             }
-            try {
-                const user = createUserApi(res._tokenResponse.idToken, user)
-                if(!user){
-                    throw Error ('email or phone already exists')
-                }else{
-                    return user
-                }
-            } catch (error) {
-                console.log(error.message);
-            }
+            createUserApi(res._tokenResponse.idToken, user)
         } catch (error) {
-            console.log(error);
+            setError(error);
         }
 
     }
@@ -49,7 +41,6 @@ export function AuthProvider({ children }) {
     const logout = () => {
         signOut(auth)
         setCurrentUser('')
-        console.log(currentUser)
     }
 
 
@@ -76,7 +67,7 @@ export function AuthProvider({ children }) {
         cap, setCap,
         results, setResults,
         day, setDay,
-
+        error, setError
     }
 
 
