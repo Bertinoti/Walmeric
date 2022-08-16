@@ -14,8 +14,6 @@ const Login = () => {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
-    console.log(currentUser)
-
     async function handleSubmit(e) {
         e.preventDefault()
 
@@ -25,9 +23,8 @@ const Login = () => {
             await login(emailRef.current.value, passwordRef.current.value)
             navigate('/dashboard')
         } catch (error) {
-            setError('Failed to log in ')
+            setError('Email or Password not correct')
         }
-
         setLoading(false)
     }
     return (
