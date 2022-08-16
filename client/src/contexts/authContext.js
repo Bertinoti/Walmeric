@@ -29,12 +29,11 @@ export function AuthProvider({ children }) {
                 phone: phoneNumber,
             }
             try {
-                const x = createUserApi(res._tokenResponse.idToken, user)
-                if(!x){
+                const user = createUserApi(res._tokenResponse.idToken, user)
+                if(!user){
                     throw Error ('email or phone already exists')
                 }else{
-                    console.log(x);
-                    return x
+                    return user
                 }
             } catch (error) {
                 console.log(error.message);

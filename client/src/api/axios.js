@@ -20,8 +20,7 @@ export const createUserApi = (token, user) => {
 };
 
 export const checkUserApi = async (user) => {
-  console.log('entro' )
-  const {data, status} = await axios.post("http://localhost:4000/api/users/checkuserapi", user)
+  const {data} = await axios.post("http://localhost:4000/api/users/checkuserapi", user)
   return data
 };
 
@@ -39,7 +38,6 @@ export const getCurrentUser = async (token, email) => {
   };
   return await axios(config)
   .then((response) => {
-      console.log(response);
       if (response.status === 200) {
         return response.data.data
       }

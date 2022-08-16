@@ -30,7 +30,6 @@ async function getCurrentUser(req, res, next) {
     const user = await User.findOne({
       where: { email: email }
     });
-    console.log('user >>>>>>>>>>>>', user);
     if (!user) {
       return res.status(209).json(sendError("This user do Not exist"));
     } else {
@@ -44,7 +43,6 @@ async function getCurrentUser(req, res, next) {
 
 async function checkUserApi(req, res) {
   try {
-    console.log(req.body)
     const { email, phoneNumber } = req.body;
     const user = await User.findAll({
       where: {

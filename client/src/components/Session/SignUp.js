@@ -72,7 +72,6 @@ export default function SignUp() {
             try {
                 setLoading(true)
                 const checkUser = await checkUserApi(values)
-                console.log(checkUser)
                 if (checkUser){
                     setError('Email or Phone number already exists')
                 }else{
