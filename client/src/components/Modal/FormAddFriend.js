@@ -1,32 +1,51 @@
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { TextField } from '@mui/material'
+import { Alert, TextField } from '@mui/material'
 import { Button } from '@mui/material';
 import { useAuth } from '../../contexts/authContext';
 import { getRefUrl } from '../Helpers';
 import MuiPhoneNumber from "material-ui-phone-number";
+import { useState } from 'react';
 
 
-const validationSchema = yup.object({
+const validationSchema = yup.object().shape({
 
   userPhoneNumber: yup
-    .number('Enter the phone number')
-    .min(11, 'add the prefix (34) and the phone number (623456789)'),
+    .number()
+    .when(['userUid', 'email'], {
+      is: (userUid, email) => !userUid && !email,
+      then: yup
+        .number('Enter the phone number')
+        .min(11, 'add the prefix (34) and the phone number (623456789)')
+        .required('Please enter one of the three fields')
+    }),
 
   userUid: yup
-    .string('Enter user the count number ')
-    .min(3, 'the length is to short'),
+    .string()
+    .when(['userPhoneNumber', 'email'], {
+      is: (userPhoneNumber, email) => !userPhoneNumber && !email,
+      then: yup
+        .string('Enter user the count number ')
+        .min(3, 'the length is to short')
+        .required('Please enter one of the three fields'),
+    }),
 
   email: yup
-    .string('Enter user email')
+    .string()
+    .when(['userPhoneNumber', 'userUid'], {
+      is: (userPhoneNumber, userUid) => !userPhoneNumber && !userUid,
+      then: yup
+        .string('Enter user Email')
+        .required('Please enter one of the three fields')
+    }),
 
-});
+}, [['userUid', 'email'], ['userPhoneNumber', 'email'], ['userPhoneNumber', 'userUid']]);
 
 export default function FormAddFriend() {
   const { show, setShow, currentUser } = useAuth();
+  const [error, setError] = useState('');
 
   const handleClose = async () => {
-    formik.handleSubmit()
     setShow(false)
   };
   const handleShow = () => setShow(true);
@@ -40,7 +59,8 @@ export default function FormAddFriend() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values)
+      console.log(values);
+      handleClose();
     }
 
   });
@@ -50,6 +70,9 @@ export default function FormAddFriend() {
     <>
       <form onSubmit={formik.handleSubmit}>
         <div className=' mx-2 d-flex justify-content-center'> To Add a new Friend you can choose One of this three Options</div>
+        {error && <Alert variant='danger'> {error} </Alert>}
+        {(formik.errors.userPhoneNumber || formik.errors.email || formik.errors.userUid) && <Alert variant='danger'>{formik.errors.userPhoneNumber || formik.errors.email || formik.errors.userUid} </Alert>}
+
           <div className='mx-2'>
             <MuiPhoneNumber
               fullWidth
@@ -96,7 +119,7 @@ export default function FormAddFriend() {
         </div>
 
         <div className=' mx-2 d-flex justify-content-center' >
-          <Button color="primary" variant="contained" fullWidth type="submit" onClick={handleClose} >
+          <Button color="primary" variant="contained" fullWidth type="submit" >
             Add new Friend
           </Button>
         </div>

@@ -33,7 +33,7 @@ async function getCurrentUser(req, res, next) {
       next(res);
     }
   } catch (error) {
-    console.log("este es um error", error);
+    console.log("Error", error);
   }
 }
 

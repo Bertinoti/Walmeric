@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/connection');
 
-const User = sequelize.define('User', {
+const User = sequelize.define('Users', {
     uid: {
         type: DataTypes.STRING,
         primaryKey: true,
@@ -29,9 +29,12 @@ const User = sequelize.define('User', {
         unique: true,
         allowNull: false,
     },
+    friendInvites: {
+        type: DataTypes.INTEGER(11),
+    }
 }, {});
 sequelize.sync()
-    .then(()=> console.log('Database create successfully'))
+    .then(()=> console.log('Database User create successfully'))
     .catch((error) => console.log(error))
 
 module.exports = User
