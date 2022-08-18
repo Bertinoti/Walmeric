@@ -15,9 +15,6 @@ const FriendInvite = sequelize.define('FriendInvites', {
     userRecever: {
         type: DataTypes.STRING
     },
-    inviteDate: {
-        type: DataTypes.DATE
-    },
 });
 
 sequelize.sync()
